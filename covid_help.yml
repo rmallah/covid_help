@@ -1,0 +1,7 @@
+---
+secrets:
+  - 206a883c6be562d0f839848ecd849967c7555bdb
+
+dsn: "dbi:Pg:dbname=covidhelp_db;host=postgresql;port=5432;"
+db_username: covidhelp_user
+db_password: xxxxxxxxxxxxxxxxxx

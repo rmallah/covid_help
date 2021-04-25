@@ -1,0 +1,183 @@
+
+<html>
+
+    <head>
+
+
+<!-- RegGrape.tech common JS and CSS inclusion --> 
+    <link rel="stylesheet" href="https://webutils.redgrape.tech/static/static-resources/css/common.css">
+    <!-- additions by rgtech -->
+    <link href="https://webutils.redgrape.tech/static/static-resources/bower_components/jtable/lib/themes/jqueryui/jtable_jqueryui.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="https://webutils.redgrape.tech/static/static-resources/bower_components/jquery-ui/themes/base/jquery-ui.css">
+
+    <link href="https://webutils.redgrape.tech/static/static-resources/bower_components/jtable/lib/themes/lightcolor/blue/jtable.min.css" rel="stylesheet" type="text/css" />
+
+
+
+         
+
+
+
+
+    <!-- JSGrid Style -->
+    <link href="https://webutils.redgrape.tech/static/static-resources/bower_components/jsgrid/dist/jsgrid.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="https://webutils.redgrape.tech/static/static-resources/bower_components/jsgrid/dist/jsgrid-theme.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- jquery -->
+    <!-- jQuery 3 -->
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/jquery.serializeJSON/jquery.serializejson.min.js"></script>
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/eldarion-ajax/js/eldarion-ajax.min.js"></script>
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/eldarion-ajax/js/eldarion-ajax-handlers.js"></script>
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/js/ajax-form.js"></script>
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/js/rgutils.js"></script>
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/jquery-sprintf/jquery.sprintf.js"></script>
+
+    <!-- bootstrap -->
+    <link type="text/css" media="all" rel="stylesheet" href="https://webutils.redgrape.tech/static/static-resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link type="text/css" media="all" rel="stylesheet" href="https://webutils.redgrape.tech/static/static-resources/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    
+    <!-- Jtable --> 
+    <script src="https://webutils.redgrape.tech/static/static-resources/bower_components/jtable/lib/jquery.jtable.min.js" type="text/javascript"></script>
+    <!-- JS Grid -->
+    <!-- JSGrid JS -->
+    <script src="https://webutils.redgrape.tech/static/static-resources/bower_components/jsgrid/dist/jsgrid.js" type="text/javascript"></script>
+    <!-- datetimepicker -->
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/moment/min/moment.min.js"></script>
+    <link type="text/css" media="all" rel="stylesheet" href="https://webutils.redgrape.tech/static/static-resources/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+
+
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <link href="https://webutils.redgrape.tech/static/static-resources/bower_components/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- select2 -->
+    <link rel="stylesheet" href="https://webutils.redgrape.tech/static/static-resources/bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="https://webutils.redgrape.tech/static/static-resources/bower_components/select2-bootstrap-theme/dist/select2-bootstrap.min.css">
+    <script type="text/javascript" src="https://webutils.redgrape.tech/static/static-resources/bower_components/select2/dist/js/select2.min.js"></script>
+    <!-- //select2 -->
+
+
+    </head>
+
+    <body>
+
+    <div class="container">
+
+        <h4>Covid Related Whatsapp Messages</h4>
+
+    <div id="jtablegrid"/>
+
+
+    </div>
+
+    </body>
+
+
+</html>
+
+<script>
+
+
+
+var jtable_fields = { };
+
+    jtable_fields["col_01"] = {
+        title: "message" ,
+        list: true  ,
+        width: "2%" , 
+        display: function  (data ) {
+
+            var message_type = data.record["message_type"];
+            var display;
+
+            if (message_type == "text") {
+                display = data.record["message"];
+            }
+            if (message_type == "image") {
+                display = $.sprintf ('<img src="%s" height="300" >' , data.record["message"] );
+            }
+
+            if (message_type == "video" || message_type == "audio" ) {
+                display = $.sprintf ('<video height="300" controls><source src="%s" ></video>' , data.record["message"] );
+            }
+
+            var html = $.sprintf ('%s<br/><b>Reported %d times</b> <b>First Reported:</b>: %s <b>Last Reported:</b> %s' , display , 
+                    data.record["report_count"] , age(data.record["first_reported"]) , age( data.record["last_reported"])  );
+
+            return html  ;
+
+        }
+    };
+    
+
+
+var jtable_args = {
+    title: 'Covid Messages',
+    pageSize: 50 ,
+    paging: true,
+    actions: {
+        listAction: function (params, jtParams) {
+
+            params["offset"]  =  jtParams.jtStartIndex ;
+            params["limit"]   =  jtParams.jtPageSize ;
+            params["order_by"] = { '-desc' : 'generated' };
+
+            return $.Deferred(function ($dfd) {
+                $.ajax({
+                        url: "/api/readmessages"  ,
+                        type:'POST' ,
+                        dataType: "json",
+                        data: JSON.stringify(params),
+                        contentType: 'application/json',
+                    success: function (data) {
+                        var jdata = {
+                            "Records": data.records,
+                            "TotalRecordCount": data.total,
+                            "Result": "OK"
+                        }
+                        $dfd.resolve(jdata);
+                    },
+
+                    error: function () {
+                        $dfd.reject();
+                    }
+                });
+            });
+        }
+    },
+    recordsLoaded: function (event, data) {
+
+ //       $('#report2').text( $.sprintf("Total Data Point: %d OK: %d , NOT_OK: %d, PCT: %.2f" , total , ok, notok, pct));
+
+    },
+    fields: jtable_fields
+};
+
+
+
+function do_search() {
+    var params = create_params() ;
+    $('#jtablegrid').jtable('load' ,params);
+}
+
+
+function create_params() {
+        var params={};
+        return params;
+} 
+
+
+$(document).ready ( function() {
+    $('#jtablegrid').jtable (jtable_args);
+    do_search();
+
+});
+
+
+</script>
