@@ -32,7 +32,12 @@ sub startup ($self) {
           },  
           editor => {
               return_to => "/"
-          }
+          },
+          schema => {  
+              PasswordReset => {
+                  "x-ignore" => 1,
+              }
+          },
       }
   );  
 
@@ -109,6 +114,12 @@ sub whatsappmessage {
         $c->logf( debug => "length content: %d , signature: %s"  , length ($content) , $message_signature ) ;
 
     } elsif ($message_type =~ /text/) {
+        my $min_length = $c->config->{min_length};
+        my $length = length($value ) ;
+        if ( $length < $min_length) {
+            $response = "Please send a message at least $min_length characters long. Your message is $length characters long and has been ignored.";
+            goto FINAL;
+        }
 
         $message_signature = &message_signature($value);
 
