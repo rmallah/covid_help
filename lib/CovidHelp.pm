@@ -75,6 +75,12 @@ sub whatsappmessage {
 
     $c->logf (debug => "data:%s" , np $data);
     $c->logf (debug => "message:%s" , np $message);
+
+
+
+    my $message_type = $message->{type};
+    $c->logf (debug => "message_type is :%s" , $message_type);
+
     $c->logf (debug => "sender:%s" , np $sender);
     $c->logf (debug => "sender_mobile:%s" , np $sender_mobile);
 
@@ -82,13 +88,11 @@ sub whatsappmessage {
 
     my $gateway_id = $message->{id} ;
     my $server_generated = $message->{time};
-    my $message_type = $message->{type};
     my $value  = $message->{value};
     my $text   = $message->{text};
     my $sender_id =  $senderobj->id ;
 
     my $message_signature;
-    my $existing_message;
 
     if ($message_type =~ /image|video|audio/) {
 
