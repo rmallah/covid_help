@@ -98,6 +98,7 @@ var jtable_fields = { };
 
             if (message_type == "text") {
                 display = data.record["message"];
+
             }
             if (message_type == "image") {
                 display = $.sprintf ('<img src="%s" height="300" >' , data.record["message"] );
@@ -106,6 +107,8 @@ var jtable_fields = { };
             if (message_type == "video" || message_type == "audio" ) {
                 display = $.sprintf ('<video height="300" controls><source src="%s" ></video>' , data.record["message"] );
             }
+
+            display = display.replace(/\n/g, '<br/>');
 
             var html = $.sprintf ('%s<br/><b>Reported %d times</b> <b>First Reported:</b>: %s <b>Last Reported:</b> %s' , display , 
                     data.record["report_count"] , age(data.record["first_reported"]) , age( data.record["last_reported"])  );
